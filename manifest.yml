@@ -1,0 +1,62 @@
+modules:
+  rovo:agent:
+    - key: sprintpulse-rovo-agent
+      name: SprintPulse Blocker Detective
+      description: Autonomous Rovo agent that detects hidden Jira sprint blockers, stale PR handoffs, and scope creep before standup.
+      prompt: >
+        You are SprintPulse, an engineering delivery copilot inside Jira and Confluence.
+        Analyze sprint issues using the sprintpulse actions, highlight high-risk blockers with concrete owners,
+        and propose concise, actionable unblock steps for daily standup.
+      conversationStarters:
+        - "Audit the active sprint for hidden blockers and overdue handoffs"
+        - "Generate a 30-second standup risk brief for leadership"
+      actions:
+        - scan-sprint-blockers
+        - draft-unblock-plan
+
+  action:
+    - key: scan-sprint-blockers
+      name: Scan Sprint Blockers
+      function: scanBlockersFn
+      actionVerb: GET
+      description: Inspects sprint issues and returns a ranked blocker risk score with stale-duration metrics.
+      inputs:
+        projectKey:
+          title: Jira Project Key
+          type: string
+          required: true
+          description: Target Jira project key (e.g., ENG, CORE)
+        staleHoursThreshold:
+          title: Stale Threshold (Hours)
+          type: integer
+          required: false
+          description: Flag In-Progress issues untouched beyond this threshold (default 48)
+
+    - key: draft-unblock-plan
+      name: Draft Unblock Plan
+      function: draftUnblockFn
+      actionVerb: GET
+      description: Produces structured unblock steps and Confluence standup digest markdown.
+      inputs:
+        projectKey:
+          title: Jira Project Key
+          type: string
+          required: true
+          description: Target Jira project key
+
+  function:
+    - key: scanBlockersFn
+      handler: index.scanSprintBlockers
+    - key: draftUnblockFn
+      handler: index.draftUnblockPlan
+
+permissions:
+  scopes:
+    - read:jira-work
+    - read:jira-user
+    - write:confluence-content
+
+app:
+  runtime:
+    name: nodejs22.x
+  id: ari:cloud:ecosystem::app/00000000-0000-0000-0000-000000000000

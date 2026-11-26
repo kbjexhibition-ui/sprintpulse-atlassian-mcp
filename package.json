@@ -1,0 +1,9 @@
+{
+  "name": "sprintpulse-atlassian-codegeist",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "node test/smoke_test.mjs",
+    "mcp": "node mcp-server/sprintpulse_mcp.mjs"
+  }
+}
