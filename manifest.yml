@@ -2,11 +2,13 @@ modules:
   rovo:agent:
     - key: sprintpulse-rovo-agent
       name: SprintPulse Blocker Detective
-      description: Autonomous Rovo agent that detects hidden Jira sprint blockers, stale PR handoffs, and scope creep before standup.
+      description: Autonomous Rovo agent that detects hidden Jira sprint blockers,
+        stale PR handoffs, and scope creep before standup.
       prompt: >
-        You are SprintPulse, an engineering delivery copilot inside Jira and Confluence.
-        Analyze sprint issues using the sprintpulse actions, highlight high-risk blockers with concrete owners,
-        and propose concise, actionable unblock steps for daily standup.
+        You are SprintPulse, an engineering delivery copilot inside Jira and
+        Confluence. Analyze sprint issues using the sprintpulse actions,
+        highlight high-risk blockers with concrete owners, and propose concise,
+        actionable unblock steps for daily standup.
       conversationStarters:
         - "Audit the active sprint for hidden blockers and overdue handoffs"
         - "Generate a 30-second standup risk brief for leadership"
@@ -19,7 +21,8 @@ modules:
       name: Scan Sprint Blockers
       function: scanBlockersFn
       actionVerb: GET
-      description: Inspects sprint issues and returns a ranked blocker risk score with stale-duration metrics.
+      description: Inspects sprint issues and returns a ranked blocker risk score with
+        stale-duration metrics.
       inputs:
         projectKey:
           title: Jira Project Key
@@ -59,4 +62,4 @@ permissions:
 app:
   runtime:
     name: nodejs22.x
-  id: ari:cloud:ecosystem::app/00000000-0000-0000-0000-000000000000
+  id: ari:cloud:ecosystem::app/2c2a01f5-a429-48d5-89c1-33a5ec4fe231
